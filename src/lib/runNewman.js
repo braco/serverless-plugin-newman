@@ -37,19 +37,23 @@ export default async function runNewman() {
 
     this.logger.log(`Calling newman with: ${spawnArgs.join(', ')}`);
 
-    const promise = spawn('newman', spawnArgs);
-    const child = promise.childProcess;
-
     const logger = console;
 
-    child.stdout.on('data', (data) => {
-      logger.log(data.toString());
-    });
-    child.stderr.on('data', (data) => {
-      logger.log(data.toString());
-    });
+    try {
+      const promise = spawn('newman', spawnArgs);
+      const child = promise.childProcess;
 
-    await promise;
+      child.stdout.on('data', (data) => {
+        logger.log(data.toString());
+      });
+      child.stderr.on('data', (data) => {
+        logger.log(data.toString());
+      });
+
+      await promise;
+    } catch (error) {
+      logger.error(error);
+    }
   } catch (error) {
     this.logger.log(error);
   }
