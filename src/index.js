@@ -21,6 +21,8 @@ class Newman {
       this.config = this.service.custom.newman;
     }
 
+    process.env.PATH = `./node_modules/.bin:${process.env.PATH}`;
+
     const commonOptions = {
       stage: {
         usage: 'Stage of the service',
