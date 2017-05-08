@@ -2,6 +2,8 @@ import path from 'path';
 import fsp from 'fs-promise';
 import { spawn } from 'child-process-promise';
 
+const logger = console;
+
 /**
  * Retrieves stack Ouputs from AWS.
  *
@@ -35,26 +37,20 @@ export default async function runNewman() {
       spawnArgs.push(absoluteEnvironmentPath);
     }
 
-    this.logger.log(`Calling newman with: ${spawnArgs.join(', ')}`);
+    const promise = spawn('newman', spawnArgs);
+    const child = promise.childProcess;
 
-    const logger = console;
+    child.stdout.on('data', (data) => {
+      logger.log(data.toString());
+    });
+    child.stderr.on('data', (data) => {
+      logger.log(data.toString());
+    });
 
-    try {
-      const promise = spawn('newman', spawnArgs);
-      const child = promise.childProcess;
-
-      child.stdout.on('data', (data) => {
-        logger.log(data.toString());
-      });
-      child.stderr.on('data', (data) => {
-        logger.log(data.toString());
-      });
-
-      await promise;
-    } catch (error) {
-      logger.error(error);
-    }
+    await promise;
   } catch (error) {
     this.logger.log(error);
+
+    throw error;
   }
 }

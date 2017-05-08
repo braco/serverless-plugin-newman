@@ -21,7 +21,10 @@ class Newman {
       this.config = this.service.custom.newman;
     }
 
-    process.env.PATH = `./node_modules/.bin:${process.env.PATH}`;
+    // make sure that we have access to node_modules/.bin services
+    if (process.env.PATH.indexOf('./node_modules/.bin') === -1) {
+      process.env.PATH = `./node_modules/.bin:${process.env.PATH}`;
+    }
 
     const commonOptions = {
       stage: {
