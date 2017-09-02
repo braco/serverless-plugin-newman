@@ -8,13 +8,15 @@ A serverless plugin for newman.
 
 ## Features
 
-* `newman` - This executes the newman postman tests
+* `newman run` - This executes the newman postman tests
+* `newman env` - This writes the postman environment file
 
 ## Usage
 
 Add the plugin to your `serverless.yml` like the following:
 
-### serverless.yml:
+### serverless.yml
+
 ```yaml
 provider:
 ...
@@ -36,6 +38,7 @@ resources:
 ```
 
 ### shell command:
+
 ```shell
 serverless newman --stage dev --region eu-west-1
 ```

@@ -1,6 +1,6 @@
-import path from 'path';
-import fsp from 'fs-promise';
 import { spawn } from 'child-process-promise';
+import * as fsp from 'fs-promise';
+import * as Path from 'path';
 
 const logger = console;
 
@@ -9,7 +9,7 @@ const logger = console;
  *
  * @returns {undefined}
  */
-export default async function runNewman() {
+export async function runNewman() {
   try {
     this.logger.log('Running Newman...');
 
@@ -20,15 +20,16 @@ export default async function runNewman() {
     }
 
     const collection = this.config.collection;
+    const environment = this.config.environment || '';
 
-    if (!collection.json) {
+    if (!collection.file) {
       this.logger.log('No `newman.collection.json` defined. Exiting Newman.');
 
       return;
     }
 
-    const absoluteCollectionPath = path.resolve(`${process.cwd()}/${collection.json}`);
-    const absoluteEnvironmentPath = path.resolve(`${process.cwd()}/.serverless/newman_environment.json`);
+    const absoluteCollectionPath = Path.resolve(`${process.cwd()}/${collection.file}`);
+    const absoluteEnvironmentPath = Path.resolve(`${process.cwd()}/${environment.file}`);
 
     const spawnArgs = ['run', absoluteCollectionPath];
 

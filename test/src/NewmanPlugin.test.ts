@@ -1,16 +1,10 @@
-
 import chai, { expect } from 'chai';
-import dirtyChai from 'dirty-chai';
-import sinonChai from 'sinon-chai';
-import sinon from 'sinon';
-import Newman from './../../src';
-
-chai.use(dirtyChai);
-chai.use(sinonChai);
+import * as Sinon from 'sinon';
+import { NewmanPlugin } from './../../src/NewmanPlugin';
 
 describe('Newman', () => {
   let eb;
-  const sandbox = sinon.sandbox.create();
+  const sandbox = Sinon.sandbox.create();
   const serverless = {
     cli: {},
     service: {},
@@ -18,11 +12,11 @@ describe('Newman', () => {
   };
 
   beforeEach(() => {
-    eb = new Newman(serverless, {});
+    eb = new NewmanPlugin(serverless, {});
   });
 
   it('new Newman', () => {
-    expect(eb).to.be.an.instanceOf(Newman);
+    expect(eb).to.be.an.instanceOf(NewmanPlugin);
     expect(eb.serverless.getProvider).to.have.been.called();
     expect(eb.options).to.deep.equal({});
   });

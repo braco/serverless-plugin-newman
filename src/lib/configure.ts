@@ -1,5 +1,5 @@
-import fsp from 'fs-promise';
-import path from 'path';
+import * as fsp from 'fs-promise';
+import * as Path from 'path';
 
 /**
  * Find a value for a key in the stack outputs.
@@ -30,11 +30,11 @@ function findStackValue(stackOutputs, key) {
  *
  * @returns {undefined}
  */
-export default async function configure() {
+export async function configure() {
   try {
     this.logger.log('Configuring Newman Environment...');
 
-    const stackOutputs = await fsp.readJson(path.resolve(`${process.cwd()}/.serverless/stack-config.json`));
+    const stackOutputs = await fsp.readJson(Path.resolve(`${process.cwd()}/.serverless/stack-config.json`));
 
     if (!this.config.environment) {
       this.logger.log('No Newman Environment Configuration Found. Proceeding with tests');
@@ -50,8 +50,8 @@ export default async function configure() {
       return;
     }
 
-    const absoluteJsonPath = path.resolve(`${process.cwd()}/${environment.json}`);
-    const absoluteRuntimePath = path.resolve(`${process.cwd()}/.serverless/newman_environment.json`);
+    const absoluteJsonPath = Path.resolve(`${process.cwd()}/${environment.json}`);
+    const absoluteRuntimePath = Path.resolve(`${process.cwd()}/.serverless/newman_environment.json`);
 
     if (!fsp.existsSync(absoluteJsonPath)) {
       this.logger.log('The specified newman environment json path does not exist');
