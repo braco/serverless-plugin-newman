@@ -9,7 +9,7 @@
     "build": "tsc",
     "clear": "rm -rf dist",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
-    "test": "env TZ='UTC' NODE_ENV=test mocha test --compilers js:babel-core/register --require babel-polyfill --recursive"
+    "test": "env TZ='UTC' AWS_PROFILE=raw-races NODE_ENV=test mocha --require ts-node/register test/src/*.test.ts test/src/**/*.test.ts"
   },
   "engines": {
     "node": ">=6.10"

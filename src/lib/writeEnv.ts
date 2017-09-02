@@ -20,7 +20,7 @@ export async function writeEnv() {
   try {
     this.logger.log('Writing postman_environment.json file...');
 
-    const outputs = await fsp.readJson('./.serverless/stack-outputs.json');
+    const outputs = await fsp.readJson(`${process.cwd()}/.serverless/stack-outputs.json`);
     const config: IPluginConfig = this.config;
     const envFilePath = this.config.environment.file;
     const envFile = getEnvTemplate(this.serverless.service.service);
