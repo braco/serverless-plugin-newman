@@ -1,20 +1,14 @@
 import * as BPromise from 'bluebird';
-import CLI from 'serverless/lib/classes/CLI';
+import * as Serverless from 'serverless';
 import { configure } from './lib/configure';
 import { runNewman } from './lib/runNewman';
 import { validate } from './lib/validate';
 import { writeEnv } from './lib/writeEnv';
-import {
-  INewmanCommands,
-  INewmanConfig,
-  INewmanHooks,
-  INewmanOptions,
-  IServerless,
-} from "./types";
+import { INewmanCommands, INewmanConfig, INewmanHooks, INewmanOptions } from './types';
 
 export default class NewmanPlugin implements INewmanConfig {
-  private serverless: IServerless;
-  private logger: CLI;
+  private serverless: Serverless;
+  private logger: Serverless.CLI;
   private options: INewmanOptions;
   private service: any;
   private config: INewmanConfig;
@@ -27,7 +21,7 @@ export default class NewmanPlugin implements INewmanConfig {
    * @param {Object} serverless the Serverless instance
    * @param {Object} options    passed in options
    */
-  constructor(serverless: IServerless, options: INewmanOptions) {
+  constructor(serverless: Serverless, options: INewmanOptions) {
     this.serverless = serverless;
     this.logger = this.serverless.cli;
     this.options = options;
@@ -70,20 +64,12 @@ export default class NewmanPlugin implements INewmanConfig {
         commands: {
           env: {
             usage: 'Write the postman environment file',
-            lifecycleEvents: [
-              'init',
-              'newman',
-              'env',
-            ],
+            lifecycleEvents: ['init', 'newman', 'env'],
             options: commonOptions,
           },
           run: {
             usage: 'Runs newman tests',
-            lifecycleEvents: [
-              'init',
-              'newman',
-              'run',
-            ],
+            lifecycleEvents: ['init', 'newman', 'run'],
             options: commonOptions,
           },
         },
@@ -93,13 +79,15 @@ export default class NewmanPlugin implements INewmanConfig {
 
   public defineHooks(): INewmanHooks {
     return {
-      'newman:env:init': () => BPromise.bind(this)
-        .then(validate)
-        .then(writeEnv),
+      'newman:env:init': () =>
+        BPromise.bind(this)
+          .then(validate)
+          .then(writeEnv),
 
-      'newman:run:init': () => BPromise.bind(this)
-        .then(validate)
-        .then(runNewman),
+      'newman:run:init': () =>
+        BPromise.bind(this)
+          .then(validate)
+          .then(runNewman),
     };
   }
 }

@@ -1,4 +1,4 @@
-import * as fsp from 'fs-promise';
+import * as fs from 'fs-extra';
 import * as Path from 'path';
 
 /**
@@ -34,7 +34,7 @@ export async function configure() {
   try {
     this.logger.log('Configuring Newman Environment...');
 
-    const stackOutputs = await fsp.readJson(Path.resolve(`${process.cwd()}/.serverless/stack-config.json`));
+    const stackOutputs = await fs.readJson(Path.resolve(`${process.cwd()}/.serverless/stack-config.json`));
 
     if (!this.config.environment) {
       this.logger.log('No Newman Environment Configuration Found. Proceeding with tests');
@@ -53,14 +53,14 @@ export async function configure() {
     const absoluteJsonPath = Path.resolve(`${process.cwd()}/${environment.json}`);
     const absoluteRuntimePath = Path.resolve(`${process.cwd()}/.serverless/newman_environment.json`);
 
-    if (!fsp.existsSync(absoluteJsonPath)) {
+    if (!fs.existsSync(absoluteJsonPath)) {
       this.logger.log('The specified newman environment json path does not exist');
       this.logger.log(absoluteJsonPath);
 
       return;
     }
 
-    const environmentObject = await fsp.readJson(absoluteJsonPath);
+    const environmentObject = await fs.readJson(absoluteJsonPath);
 
     environmentObject.values.forEach((element) => {
       let key = element.value;
@@ -73,7 +73,7 @@ export async function configure() {
       }
     });
 
-    await fsp.writeJson(absoluteRuntimePath, environmentObject);
+    await fs.writeJson(absoluteRuntimePath, environmentObject, { spaces: 2 });
   } catch (error) {
     this.logger.log(error);
   }

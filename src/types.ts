@@ -5,22 +5,16 @@ export interface INewmanConfig {
   defineHooks(): INewmanHooks;
 }
 
-export interface IServerless {
-  config: any;
-  cli: CLI;
-  service: any;
-  getProvider(type: string): any;
-}
-
 export interface INewmanCommands {
   newman: {
     commands: {
       run: any;
       env: any;
-    },
+    };
   };
 }
 
+// tslint:disable-next-line:no-empty-interface
 export interface INewmanHooks {
   // 'newman:env:getValues';
   // 'outputs:download:download';

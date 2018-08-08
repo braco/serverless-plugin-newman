@@ -1,5 +1,5 @@
 import { spawn } from 'child-process-promise';
-import * as fsp from 'fs-promise';
+import * as fs from 'fs-extra';
 import * as Path from 'path';
 
 const logger = console;
@@ -33,7 +33,7 @@ export async function runNewman() {
 
     const spawnArgs = ['run', absoluteCollectionPath];
 
-    if (fsp.existsSync(absoluteEnvironmentPath)) {
+    if (fs.existsSync(absoluteEnvironmentPath)) {
       spawnArgs.push('-e');
       spawnArgs.push(absoluteEnvironmentPath);
     }

@@ -8,8 +8,8 @@ A serverless plugin for newman.
 
 ## Features
 
+* `newman env` - This writes the postman environment file with the configured values
 * `newman run` - This executes the newman postman tests
-* `newman env` - This writes the postman environment file
 
 ## Usage
 
@@ -25,11 +25,15 @@ plugins:
   - serverless-plugin-newman
 
 custom:
-  newman:
     collection:
-      json: test/integration/postman_collection.json
+      file: test/postman_collection.json
     environment:
-      json: test/integration/postman_environment.json
+      file: test/deploy.postman_environment.json
+      values:
+        - key: endpoint
+          enabled: true
+          value: ServiceEndpoint
+          type: OUTPUTS
 
 functions:
 ...
@@ -37,10 +41,16 @@ resources:
 ...
 ```
 
-### shell command:
+### # Configure Environment
 
 ```shell
-serverless newman --stage dev --region eu-west-1
+serverless newman env --stage dev --region eu-west-1
+```
+
+### # Run Newman
+
+```shell
+serverless newman run --stage dev --region eu-west-1
 ```
 
 ## License
