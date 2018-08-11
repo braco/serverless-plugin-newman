@@ -58,6 +58,7 @@ export interface IEnvValue {
 }
 
 export enum ValueType {
+  ENVIRONMENT = 'ENVIRONMENT',
   OUTPUTS = 'OUTPUTS',
   STRING = 'STRING',
 }

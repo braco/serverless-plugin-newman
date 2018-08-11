@@ -32,6 +32,8 @@ export async function writeEnv() {
 
       if (value.type === ValueType.OUTPUTS) {
         value.value = outputs[value.value];
+      } else if (value.type === ValueType.ENVIRONMENT) {
+        value.value = process.env[value.value];
       }
 
       delete value.type;
