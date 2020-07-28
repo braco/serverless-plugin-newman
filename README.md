@@ -1,6 +1,6 @@
 # Newman Serverless Plugin
 
-A serverless plugin for newman.
+A serverless plugin for [newman](https://github.com/postmanlabs/newman).
 
 ## Dependencies
 
